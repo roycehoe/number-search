@@ -13,10 +13,12 @@ export async function write(data: PhoneValidationResponse) {
     await dbClient.connect();
     const db = dbClient.db(DB_NAME);
     const collection = db.collection("documents");
-    await collection.insertOne({
+    const newDocument: PhoneValidationDBSchema = {
       ...data,
       createdAt: Date.now(),
-    } as PhoneValidationDBSchema);
+    };
+
+    await collection.insertOne(newDocument);
   } catch (e) {
     console.error(e);
   } finally {
