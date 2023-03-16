@@ -1,5 +1,4 @@
 import express from "express";
-// import { get } from "./controllers/PhoneNumberController";
 import * as PhoneNumberController from "./controllers/PhoneNumberController";
 
 const app = express();

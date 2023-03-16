@@ -1,6 +1,7 @@
 import axios from "axios";
 import dotenv from "dotenv";
 import { Request, Response } from "express";
+import * as Database from "../database";
 dotenv.config();
 
 const { SECRET_KEY } = process.env;
@@ -35,6 +36,7 @@ export async function save(request: Request, response: Response) {
     const phoneNumberResponse = await axios.get(
       `${PHONE_VALIDATION_BASE_URL}/?api_key=${SECRET_KEY}&phone=${phoneNumber}`
     );
+    Database.write(phoneNumberResponse.data);
     response.send(phoneNumberResponse.data as PhoneValidationResponse);
   } catch (error) {
     console.error(error);
