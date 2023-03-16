@@ -1,14 +1,11 @@
-import express, { Request, Response } from "express";
-import { getPhoneDetails } from "./controllers/PhoneNumberController";
+import express from "express";
+// import { get } from "./controllers/PhoneNumberController";
+import * as PhoneNumberController from "./controllers/PhoneNumberController";
 
 const app = express();
 const port = 3000;
 
-app.get("/", async (request: Request, response: Response) => {
-  const queryParams = request.query;
-  const phoneNumber = await getPhoneDetails(queryParams.q as string);
-  response.send(phoneNumber);
-});
+app.get("/", PhoneNumberController.search);
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
