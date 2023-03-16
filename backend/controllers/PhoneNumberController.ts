@@ -48,10 +48,9 @@ export async function get(request: Request, response: Response) {
   const queryParams = request.query;
   const phoneNumber = queryParams.q as string;
   try {
-    const phoneNumberResponse = await axios.get(
-      `${PHONE_VALIDATION_BASE_URL}/?api_key=${SECRET_KEY}&phone=${phoneNumber}`
-    );
-    response.send(phoneNumberResponse.data);
+    const databaseData = await Database.read(phoneNumber);
+    console.log(databaseData);
+    response.send(databaseData);
   } catch (error) {
     console.error(error);
   }

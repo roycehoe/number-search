@@ -3,9 +3,10 @@ import { DB_NAME, DB_URL } from "./config";
 import { PhoneValidationResponse } from "./controllers/PhoneNumberController";
 
 const dbClient = new MongoClient(DB_URL);
+const DEFAULT_DB_SORT = { createdAt: -1 };
 
-export function test() {
-  console.log("I am in the database");
+interface PhoneValidationDBSchema extends PhoneValidationResponse {
+  createdAt: number;
 }
 
 export async function write(data: PhoneValidationResponse) {
@@ -13,9 +14,10 @@ export async function write(data: PhoneValidationResponse) {
     await dbClient.connect();
     const db = dbClient.db(DB_NAME);
     const collection = db.collection("documents");
-    await collection.insertOne(data);
-    console.log("Data saved");
-    console.log(data);
+    await collection.insertOne({
+      ...data,
+      createdAt: Date.now(),
+    } as PhoneValidationDBSchema);
   } catch (e) {
     console.error(e);
   } finally {
@@ -29,8 +31,14 @@ export async function read(phoneNumber: string) {
     const db = dbClient.db(DB_NAME);
     const collection = db.collection("documents");
 
-    const findResult = await collection.find({ phone: phoneNumber }).toArray();
-    return findResult;
+    const findResult = await collection
+      .find({
+        phone: phoneNumber,
+      })
+      .sort({ createdAt: -1 })
+      .limit(1)
+      .toArray();
+    return findResult[0];
   } catch (e) {
     console.error(e);
   } finally {
