@@ -1,7 +1,7 @@
 import axios from "axios";
-import dotenv from "dotenv";
 import { Request, Response } from "express";
 import * as Database from "../database";
+import dotenv from "dotenv";
 dotenv.config();
 
 const { SECRET_KEY } = process.env;

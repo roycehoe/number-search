@@ -3,7 +3,6 @@ import { DB_NAME, DB_URL } from "./config";
 import { PhoneValidationResponse } from "./controllers/PhoneNumberController";
 
 const dbClient = new MongoClient(DB_URL);
-const DEFAULT_DB_SORT = { createdAt: -1 };
 
 interface PhoneValidationDBSchema extends PhoneValidationResponse {
   createdAt: number;
