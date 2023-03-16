@@ -37,7 +37,6 @@ export async function save(request: Request, response: Response) {
       `${PHONE_VALIDATION_BASE_URL}/?api_key=${SECRET_KEY}&phone=${phoneNumber}`
     );
     Database.write(phoneNumberResponse.data);
-    response.send(phoneNumberResponse.data as PhoneValidationResponse);
   } catch (error) {
     console.error(error);
   }

@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb";
+import { MongoClient, WithId } from "mongodb";
 import { DB_NAME, DB_URL } from "./config";
 import { PhoneValidationResponse } from "./controllers/PhoneNumberController";
 
@@ -38,7 +38,7 @@ export async function read(phoneNumber: string) {
       .sort({ createdAt: -1 })
       .limit(1)
       .toArray();
-    return findResult[0];
+    return findResult[0] as WithId<PhoneValidationDBSchema>;
   } catch (e) {
     console.error(e);
   } finally {
