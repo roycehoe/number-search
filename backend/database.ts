@@ -31,15 +31,17 @@ export async function read(phoneNumber: string) {
     await dbClient.connect();
     const db = dbClient.db(DB_NAME);
     const collection = db.collection("documents");
+    const findResult = await collection.findOne({phone: phoneNumber})
+    return findResult
 
-    const findResult = await collection
-      .find({
-        phone: phoneNumber,
-      })
-      .sort({ createdAt: -1 })
-      .limit(1)
-      .toArray();
-    return findResult[0] as WithId<PhoneValidationDBSchema>;
+    // const findResult = await collection
+    //   .find({
+    //     phone: phoneNumber,
+    //   })
+    //   .sort({ createdAt: -1 })
+    //   .limit(1)
+    //   .toArray();
+    // return findResult[0] as WithId<PhoneValidationDBSchema>;
   } catch (e) {
     console.error(e);
   } finally {

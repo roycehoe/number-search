@@ -5,7 +5,6 @@ const app = express();
 const port = 3000;
 
 app.get("/", PhoneNumberController.save);
-app.get("/report", PhoneNumberController.get);
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);

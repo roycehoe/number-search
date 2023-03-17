@@ -25,33 +25,28 @@ export interface PhoneValidationResponse {
   carrier: string;
 }
 
-export async function save(request: Request, response: Response) {
-  // Saves phone data to phone database
-  const queryParams = request.query;
-  const phoneNumber = queryParams.q as string;
+async function getDatabaseData(phoneNumber: string) {
+  const databaseData = await Database.read(phoneNumber);
+  if (databaseData) {
+    return databaseData;
+  }
   try {
     const phoneNumberResponse = await axios.get(
       `${PHONE_VALIDATION_BASE_URL}/?api_key=${SECRET_KEY}&phone=${phoneNumber}`
     );
-    Database.write(phoneNumberResponse.data);
-    response.sendStatus(201);
+    await Database.write(phoneNumberResponse.data);
+    const newDatabaseData = await Database.read(phoneNumber);
+    return newDatabaseData;
   } catch (error) {
     console.error(error);
-    response.sendStatus(404);
   }
 }
 
-export async function get(request: Request, response: Response) {
-  // Retrieves phone data from phone database
+export async function save(request: Request, response: Response) {
+  // Obtains phone data from phone database
   const queryParams = request.query;
   const phoneNumber = queryParams.q as string;
-  try {
-    const databaseData = await Database.read(phoneNumber);
-    console.log(databaseData);
-    response.send(databaseData);
-    // response.sendStatus(200).json(databaseData);
-  } catch (error) {
-    console.error(error);
-    response.sendStatus(404);
-  }
+  const databaseData = await getDatabaseData(phoneNumber);
+  console.log(databaseData);
+  response.send(databaseData);
 }
