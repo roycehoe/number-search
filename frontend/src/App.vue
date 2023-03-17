@@ -56,7 +56,8 @@ function handleClick() {
 </script>
 
 <template>
-  <div>
+  <div class="flex flex-col justify-center items-center">
+    <h1 class="m-12">Find This Number</h1>
     <div class="grid grid-rows-6 w-96">
       <div class="phone-number-input bg-blue-800 row-span-1">
         <div class="flex m-2">
@@ -85,6 +86,7 @@ function handleClick() {
           </div>
           <p v-if="mockData.valid" class="text-left">Location: {{ mockData.country.name }}, {{ mockData.location }}</p>
           <p v-if="mockData.valid" class="text-left">Carrier: {{ mockData.carrier }}</p>
+          <p v-if="mockData.valid" class="text-left">international: {{ mockData.carrier }}</p>
         </div>
       </Transition>
     </div>
