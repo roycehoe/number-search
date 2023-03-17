@@ -2,6 +2,7 @@ import axios from "axios";
 import { Request, Response } from "express";
 import { SECRET_KEY } from "../config";
 import * as Database from "../database";
+
 const PHONE_VALIDATION_BASE_URL = "https://phonevalidation.abstractapi.com/v1";
 
 export interface Format {
@@ -25,7 +26,8 @@ export interface PhoneValidationResponse {
   carrier: string;
 }
 
-async function getDatabaseData(phoneNumber: string) {
+async function getPhoneNumberData(phoneNumber: string) {
+  // Reads phone number data from database. Writes, then retrieves phone data from database if no such data exists
   const databaseData = await Database.read(phoneNumber);
   if (databaseData) {
     return databaseData;
@@ -42,11 +44,14 @@ async function getDatabaseData(phoneNumber: string) {
   }
 }
 
-export async function save(request: Request, response: Response) {
+export async function get(request: Request, response: Response) {
   // Obtains phone data from phone database
   const queryParams = request.query;
   const phoneNumber = queryParams.q as string;
-  const databaseData = await getDatabaseData(phoneNumber);
-  console.log(databaseData);
-  response.send(databaseData);
+  try {
+    const databaseData = await getPhoneNumberData(phoneNumber);
+    response.send(databaseData);
+  } catch (error) {
+    console.error(error);
+  }
 }
