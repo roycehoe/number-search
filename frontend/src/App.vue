@@ -73,13 +73,17 @@ function handleClick() {
       </div>
       <div class="phone-number-result bg-green-800 row-span-5 m-2">
         <div class="flex">
-          <p class="text-left mr-2">Status: </p>
-          <div class="badge badge-success h-full">
-            Valid
+          <p class="text-left">Status:
+          <div v-if="mockData.valid" class="badge badge-success">
+            Valid number
           </div>
+          <div v-else class="badge badge-error">
+            Invalid number
+          </div>
+          </p>
         </div>
-        <p class="text-left">Location: {{ mockData.country.name }}, {{ mockData.location }}</p>
-        <p class="text-left">Carrier: {{ mockData.carrier }}</p>
+        <p v-if="mockData.valid" class="text-left">Location: {{ mockData.country.name }}, {{ mockData.location }}</p>
+        <p v-if="mockData.valid" class="text-left">Carrier: {{ mockData.carrier }}</p>
       </div>
     </div>
 
