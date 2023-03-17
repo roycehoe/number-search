@@ -48,10 +48,8 @@ const MOCK_DATA = {
 const searchInput = ref("")
 const isLoading = ref(false)
 const mockData = ref(MOCK_DATA)
-// const isLoading = ref(true)
 
 function handleClick() {
-  console.log(searchInput.value)
 }
 
 
@@ -67,27 +65,41 @@ function handleClick() {
               class="input input-bordered input-primary w-full h-full" />
           </div>
           <div class="ml-4">
-            <button @click="handleClick">Search</button>
+            <button class="btn" :class="{
+              'btn loading': isLoading
+            }" @click="handleClick">Search</button>
           </div>
         </div>
       </div>
-      <div class="phone-number-result bg-green-800 row-span-5 m-2">
-        <div class="flex">
-          <p class="text-left">Status:
-          <div v-if="mockData.valid" class="badge badge-success">
-            Valid number
+      <Transition>
+        <div v-if="!isLoading" class="phone-number-result bg-green-800 row-span-5 m-2">
+          <div class="flex">
+            <p class="text-left">Status:
+            <div v-if="mockData.valid" class="badge badge-success">
+              Valid number
+            </div>
+            <div v-else class="badge badge-error">
+              Invalid number
+            </div>
+            </p>
           </div>
-          <div v-else class="badge badge-error">
-            Invalid number
-          </div>
-          </p>
+          <p v-if="mockData.valid" class="text-left">Location: {{ mockData.country.name }}, {{ mockData.location }}</p>
+          <p v-if="mockData.valid" class="text-left">Carrier: {{ mockData.carrier }}</p>
         </div>
-        <p v-if="mockData.valid" class="text-left">Location: {{ mockData.country.name }}, {{ mockData.location }}</p>
-        <p v-if="mockData.valid" class="text-left">Carrier: {{ mockData.carrier }}</p>
-      </div>
+      </Transition>
     </div>
 
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+</style>
