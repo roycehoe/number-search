@@ -1,4 +1,14 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+
+
+const searchInput = ref("")
+
+function handleClick() {
+  console.log(searchInput.value)
+}
+
+
 </script>
 
 <template>
@@ -7,10 +17,11 @@
       <div class="phone-number-input bg-blue-800 row-span-1">
         <div class="flex m-2">
           <div>
-            <input type="text" placeholder="Phone number..." class="input input-bordered input-primary w-full h-full" />
+            <input v-model="searchInput" type="text" placeholder="Phone number..."
+              class="input input-bordered input-primary w-full h-full" />
           </div>
           <div class="ml-4">
-            <button>Search</button>
+            <button @click="handleClick">Search</button>
           </div>
         </div>
       </div>
