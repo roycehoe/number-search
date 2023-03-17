@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import codes from 'country-calling-code';
 import { ref } from 'vue';
 
 export interface Format {
@@ -48,8 +49,14 @@ const MOCK_DATA = {
 const searchInput = ref("")
 const isLoading = ref(false)
 const mockData = ref(MOCK_DATA)
+const countryCode = ref("65")
 
 function handleClick() {
+  console.log(codes)
+}
+
+function handleSelectCountryCode(event) {
+  console.log(event)
 }
 
 
@@ -58,20 +65,28 @@ function handleClick() {
 <template>
   <div class="flex flex-col justify-center items-center">
     <h1 class="m-12">Find This Number</h1>
-    <div class="grid grid-rows-6 w-96">
-      <div class="phone-number-input bg-blue-800 row-span-1">
-        <div class="flex m-2">
-          <div>
-            <input v-model="searchInput" type="text" placeholder="Phone number..."
-              class="input input-bordered input-primary w-full h-full" />
-          </div>
-          <div class="ml-4">
-            <button class="btn" :class="{
-              'btn loading': isLoading
-            }" @click="handleClick">Search</button>
-          </div>
-        </div>
+    <select class="select w-full max-w-xs">
+      <option disabled selected>Select a country code</option>
+      <option v-for="{ country, countryCodes, isoCode2, isoCode3 } in codes">
+        <a @click="handleSelectCountryCode(countryCodes[0])">
+          {{ country }} +{{ countryCodes[0] }}
+        </a>
+      </option>
+    </select>
+
+    <div class="phone-number-input w-full max-w-xs">
+      <div>
+        <input v-model="searchInput" type="text" placeholder="eg. 5550199"
+          class="input input-bordered input-primary w-full mt-2" />
       </div>
+    </div>
+
+    <div class="ml-4">
+      <button class="btn" :class="{
+        'btn loading': isLoading
+      }" @click="handleClick">Search</button>
+    </div>
+    <div class="w-96">
       <Transition>
         <div v-if="!isLoading" class="phone-number-result bg-green-800 row-span-5 m-2">
           <div class="flex">
