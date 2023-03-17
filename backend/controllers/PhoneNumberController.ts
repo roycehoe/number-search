@@ -47,6 +47,7 @@ export async function get(request: Request, response: Response) {
   const phoneNumber = queryParams.q as string;
   try {
     const databaseData = await Database.read(phoneNumber);
+    console.log(databaseData);
     response.send(databaseData);
     // response.sendStatus(200).json(databaseData);
   } catch (error) {
