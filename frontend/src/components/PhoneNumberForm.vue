@@ -13,13 +13,18 @@ function handleClick() {
   console.log(countryCallingCode.value);
 }
 
+function submitForm() {
+  isFormLoading.value = true;
+  const input = countryCallingCode.value + phoneNumberInput.value;
+  console.log(input);
+}
+
 function handleSelectCountryCode(newCountryCallingCode: string) {
   countryCallingCode.value = newCountryCallingCode.replace("-", "");
 }
 </script>
 
 <template>
-  <!-- <button @click="handleClick">TEST BUTTON</button> -->
   <div class="form-container" :class="[countryCallingCode ? 'h-40' : 'h-12']">
     <select
       class="phone-number-input--country-code select w-full max-w-xs"
@@ -28,7 +33,7 @@ function handleSelectCountryCode(newCountryCallingCode: string) {
       <option disabled value="">Select a country code</option>
       <option
         v-for="{ country, countryCodes, isoCode2, isoCode3 } in codes"
-        :value="countryCodes[0]"
+        :value="countryCodes[0].replace('-', '')"
       >
         <a> {{ country }} +{{ countryCodes[0] }} </a>
       </option>
@@ -66,7 +71,7 @@ function handleSelectCountryCode(newCountryCallingCode: string) {
         :class="{
           'btn loading': isFormLoading,
         }"
-        @click="handleClick"
+        @click="submitForm"
       >
         Search
       </button>

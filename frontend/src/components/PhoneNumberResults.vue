@@ -5,28 +5,30 @@ const { isFormLoading, mockData } = usePhoneNumberForm();
 </script>
 
 <template>
-  <div class="w-96 h-52">
+  <div class="w-96 h-24 mt-4">
     <Transition>
-      <div
-        v-if="!isFormLoading"
-        class="phone-number-result bg-green-800 row-span-5 m-2"
-      >
-        <div class="flex">
-          <p class="text-left">Status:</p>
-          <div v-if="mockData.valid" class="badge badge-success">
-            Valid number
+      <div class="card w-96 bg-base-100 shadow-xl">
+        <div class="card-body p-0">
+          <div v-if="!isFormLoading" class="phone-number-result row-span-5 m-2">
+            <div class="flex">
+              <p class="text-left">Status:
+                <div v-if="mockData.valid" class="badge badge-success">
+                  Valid number
+                </div>
+                <div v-else class="badge badge-error">Invalid number</div>
+              </p>
+            </div>
+            <p v-if="mockData.valid" class="text-left">
+              Location: {{ mockData.country.name }}, {{ mockData.location }}
+            </p>
+            <p v-if="mockData.valid" class="text-left">
+              Carrier: {{ mockData.carrier }}
+            </p>
+            <p v-if="mockData.valid" class="text-left">
+              International number: {{ mockData.format.international }}
+            </p>
           </div>
-          <div v-else class="badge badge-error">Invalid number</div>
         </div>
-        <p v-if="mockData.valid" class="text-left">
-          Location: {{ mockData.country.name }}, {{ mockData.location }}
-        </p>
-        <p v-if="mockData.valid" class="text-left">
-          Carrier: {{ mockData.carrier }}
-        </p>
-        <p v-if="mockData.valid" class="text-left">
-          international: {{ mockData.format.international }}
-        </p>
       </div>
     </Transition>
   </div>
