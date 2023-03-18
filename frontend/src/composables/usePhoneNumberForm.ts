@@ -1,6 +1,7 @@
 import axios, { AxiosError } from "axios";
 import { Err, Ok, Result } from "ts-results";
 import { ref } from "vue";
+import { BASE_URL } from "../constants";
 
 interface Format {
   international: string;
@@ -43,8 +44,6 @@ const MOCK_DATA = {
   carrier: "SingTel",
   createdAt: 1679013028962,
 };
-
-const BASE_URL = "http://localhost:3000/";
 
 const phoneNumberData = ref({} as PhoneValidationResponse);
 const isFormLoading = ref(false);

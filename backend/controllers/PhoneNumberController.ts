@@ -51,6 +51,7 @@ export async function get(request: Request, response: Response) {
   try {
     const databaseData = await getPhoneNumberData(phoneNumber);
     response.send(databaseData);
+    console.log(databaseData);
   } catch (error) {
     console.error(error);
   }

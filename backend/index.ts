@@ -1,16 +1,18 @@
+import cors from "cors";
 import express from "express";
+import { PORT } from "./config";
 import * as PhoneNumberController from "./controllers/PhoneNumberController";
 
 const app = express();
-const port = 3000;
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  next();
-});
+app.use(
+  cors({
+    origin: ["*"],
+  })
+);
 
 app.get("/", PhoneNumberController.get);
 
-app.listen(port, () => {
-  console.log(`App listening on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`App listening on port ${PORT}`);
 });
