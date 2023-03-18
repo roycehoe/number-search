@@ -19,11 +19,8 @@ function handleSelectCountryCode(newCountryCallingCode: string) {
 </script>
 
 <template>
-  <button @click="handleClick">TEST BUTTON</button>
-  <div
-    class="form-container"
-    :class="[countryCallingCode ? 'max-h-40' : 'max-h-12']"
-  >
+  <!-- <button @click="handleClick">TEST BUTTON</button> -->
+  <div class="form-container" :class="[countryCallingCode ? 'h-40' : 'h-12']">
     <select
       class="phone-number-input--country-code select w-full max-w-xs"
       v-model="countryCallingCode"
@@ -79,16 +76,6 @@ function handleSelectCountryCode(newCountryCallingCode: string) {
 
 <style scoped>
 .form-container {
-  transition: max-height 0.2s linear;
-}
-
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.5s ease;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
+  transition: height 0.2s linear;
 }
 </style>
