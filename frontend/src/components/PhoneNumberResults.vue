@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { usePhoneNumberForm } from "../composables/usePhoneNumberForm";
 
-const { isFormLoading, toggleFormLoadingState, mockData } =
-  usePhoneNumberForm();
+const { isFormLoading, mockData } = usePhoneNumberForm();
 </script>
 
 <template>

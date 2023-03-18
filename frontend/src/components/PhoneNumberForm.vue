@@ -4,26 +4,26 @@ import { usePhoneNumberForm } from "../composables/usePhoneNumberForm";
 
 const {
   isFormLoading,
-  toggleFormLoadingState,
   phoneNumberInput,
-  isShowPhoneNumberInput,
-  toggleShowPhoneNumberInput,
   countryCallingCode,
+  resetPhoneNumberForm,
 } = usePhoneNumberForm();
 
 function handleClick() {
-  toggleFormLoadingState();
-  console.log(isFormLoading.value);
+  console.log(countryCallingCode.value);
 }
 
-function handleSelectCountryCode(something: string) {
-  console.log(something.replace("-", ""));
+function handleSelectCountryCode(newCountryCallingCode: string) {
+  countryCallingCode.value = newCountryCallingCode.replace("-", "");
 }
 </script>
 
 <template>
-  <div>
-    <select class="select w-full max-w-xs">
+  <div
+    class="form-container"
+    :class="[countryCallingCode ? 'max-h-40' : 'max-h-12']"
+  >
+    <select class="phone-number-input--country-code select w-full max-w-xs">
       <option disabled selected>Select a country code</option>
       <option
         v-for="{ country, countryCodes, isoCode2, isoCode3 } in codes"
@@ -33,7 +33,10 @@ function handleSelectCountryCode(something: string) {
       </option>
     </select>
 
-    <div class="phone-number-input w-full max-w-xs">
+    <div
+      class="phone-number-input--phone-number w-full max-w-xs"
+      v-if="countryCallingCode"
+    >
       <div>
         <input
           v-model="phoneNumberInput"
@@ -44,13 +47,16 @@ function handleSelectCountryCode(something: string) {
       </div>
     </div>
 
-    <div class="flex mt-2 justify-end gap-2">
+    <div
+      class="phone-number-input--buttons flex mt-2 justify-end gap-2"
+      v-if="countryCallingCode"
+    >
       <button
         class="btn w-24"
         :class="{
           'btn loading': isFormLoading,
         }"
-        @click="handleClick"
+        @click="resetPhoneNumberForm"
       >
         Reset
       </button>
@@ -64,8 +70,23 @@ function handleSelectCountryCode(something: string) {
         Search
       </button>
     </div>
-    <button @click="handleClick">TEST BUTTON</button>
+
+    <!-- <button @click="handleClick">TEST BUTTON</button> -->
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.form-container {
+  transition: max-height 0.2s linear;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+</style>
