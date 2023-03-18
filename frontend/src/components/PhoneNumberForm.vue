@@ -19,15 +19,19 @@ function handleSelectCountryCode(newCountryCallingCode: string) {
 </script>
 
 <template>
+  <button @click="handleClick">TEST BUTTON</button>
   <div
     class="form-container"
     :class="[countryCallingCode ? 'max-h-40' : 'max-h-12']"
   >
-    <select class="phone-number-input--country-code select w-full max-w-xs">
-      <option disabled selected>Select a country code</option>
+    <select
+      class="phone-number-input--country-code select w-full max-w-xs"
+      v-model="countryCallingCode"
+    >
+      <option disabled value="">Select a country code</option>
       <option
         v-for="{ country, countryCodes, isoCode2, isoCode3 } in codes"
-        @click="handleSelectCountryCode(countryCodes[0])"
+        :value="countryCodes[0]"
       >
         <a> {{ country }} +{{ countryCodes[0] }} </a>
       </option>
@@ -70,8 +74,6 @@ function handleSelectCountryCode(newCountryCallingCode: string) {
         Search
       </button>
     </div>
-
-    <!-- <button @click="handleClick">TEST BUTTON</button> -->
   </div>
 </template>
 
