@@ -1,3 +1,5 @@
+import axios, { AxiosError } from "axios";
+import { Err, Ok, Result } from "ts-results";
 import { ref } from "vue";
 
 interface Format {
@@ -42,8 +44,22 @@ const MOCK_DATA = {
   createdAt: 1679013028962,
 };
 
+const BASE_URL = "http://localhost:3000/";
+
 const phoneNumberData = ref({} as PhoneValidationResponse);
 const isFormLoading = ref(false);
+
+async function getPhoneNumberData(
+  queryParams: string
+): Promise<Result<PhoneValidationResponse, AxiosError>> {
+  try {
+    const response = await axios.get(`${BASE_URL}?q=${queryParams}`);
+    console.log(response);
+    return Ok(response.data as PhoneValidationResponse);
+  } catch (error) {
+    return Err(error as AxiosError);
+  }
+}
 
 export function usePhoneNumberForm() {
   function resetPhoneNumberForm() {
@@ -52,10 +68,17 @@ export function usePhoneNumberForm() {
     phoneNumberData.value = {} as PhoneValidationResponse;
   }
 
-  function submitPhoneNumberForm() {
-    const getPhoneNumberRequest = `${countryCallingCode.value}${phoneNumberInput.value}`;
-    console.log(getPhoneNumberRequest);
-    phoneNumberData.value = MOCK_DATA;
+  async function submitPhoneNumberForm() {
+    isFormLoading.value = true;
+
+    const queryParams = `${countryCallingCode.value}${phoneNumberInput.value}`;
+    const { ok: isSuccessful, val: response } = await getPhoneNumberData(
+      queryParams
+    );
+    if (isSuccessful) {
+      phoneNumberData.value = response;
+    }
+    isFormLoading.value = false;
   }
 
   return {

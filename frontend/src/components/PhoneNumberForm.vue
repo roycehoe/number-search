@@ -9,14 +9,6 @@ const {
   submitPhoneNumberForm,
   resetPhoneNumberForm,
 } = usePhoneNumberForm();
-
-function handleClick() {
-  console.log(countryCallingCode.value);
-}
-
-function handleSelectCountryCode(newCountryCallingCode: string) {
-  countryCallingCode.value = newCountryCallingCode.replace("-", "");
-}
 </script>
 
 <template>
