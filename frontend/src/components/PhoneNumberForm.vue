@@ -1,9 +1,15 @@
 <script setup lang="ts">
 import codes from "country-calling-code";
-import { isLoading, phoneNumberInput } from "../composables/usePhoneNumberForm";
+import {
+  phoneNumberInput,
+  usePhoneNumberForm,
+} from "../composables/usePhoneNumberForm";
+
+const { isPhoneNumberFormLoading, toggleLoadingState } = usePhoneNumberForm();
 
 function handleClick() {
-  console.log(codes);
+  usePhoneNumberForm().toggleLoadingState();
+  console.log(usePhoneNumberForm().isPhoneNumberFormLoading.value);
 }
 
 function handleSelectCountryCode(event) {
@@ -37,7 +43,7 @@ function handleSelectCountryCode(event) {
       <button
         class="btn w-24"
         :class="{
-          'btn loading': isLoading,
+          'btn loading': isPhoneNumberFormLoading,
         }"
         @click="handleClick"
       >
@@ -46,7 +52,7 @@ function handleSelectCountryCode(event) {
       <button
         class="btn w-24"
         :class="{
-          'btn loading': isLoading,
+          'btn loading': isPhoneNumberFormLoading,
         }"
         @click="handleClick"
       >

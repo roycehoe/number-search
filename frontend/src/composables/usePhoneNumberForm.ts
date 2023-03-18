@@ -21,5 +21,13 @@ const MOCK_DATA = {
   createdAt: 1679013028962,
 };
 
-export const isLoading = ref(false);
 export const mockData = ref(MOCK_DATA);
+const isPhoneNumberFormLoading = ref(false);
+
+export function usePhoneNumberForm() {
+  function toggleLoadingState() {
+    isPhoneNumberFormLoading.value = !isPhoneNumberFormLoading.value;
+  }
+
+  return { toggleLoadingState, isPhoneNumberFormLoading };
+}
