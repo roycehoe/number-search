@@ -1,19 +1,23 @@
 <script setup lang="ts">
 import codes from "country-calling-code";
-import {
-  phoneNumberInput,
-  usePhoneNumberForm,
-} from "../composables/usePhoneNumberForm";
+import { usePhoneNumberForm } from "../composables/usePhoneNumberForm";
 
-const { isPhoneNumberFormLoading, toggleLoadingState } = usePhoneNumberForm();
+const {
+  isFormLoading,
+  toggleFormLoadingState,
+  phoneNumberInput,
+  isShowPhoneNumberInput,
+  toggleShowPhoneNumberInput,
+  countryCallingCode,
+} = usePhoneNumberForm();
 
 function handleClick() {
-  usePhoneNumberForm().toggleLoadingState();
-  console.log(usePhoneNumberForm().isPhoneNumberFormLoading.value);
+  toggleFormLoadingState();
+  console.log(isFormLoading.value);
 }
 
-function handleSelectCountryCode(event) {
-  console.log(event);
+function handleSelectCountryCode(something: string) {
+  console.log(something.replace("-", ""));
 }
 </script>
 
@@ -21,10 +25,11 @@ function handleSelectCountryCode(event) {
   <div>
     <select class="select w-full max-w-xs">
       <option disabled selected>Select a country code</option>
-      <option v-for="{ country, countryCodes, isoCode2, isoCode3 } in codes">
-        <a @click="handleSelectCountryCode(countryCodes[0])">
-          {{ country }} +{{ countryCodes[0] }}
-        </a>
+      <option
+        v-for="{ country, countryCodes, isoCode2, isoCode3 } in codes"
+        @click="handleSelectCountryCode(countryCodes[0])"
+      >
+        <a> {{ country }} +{{ countryCodes[0] }} </a>
       </option>
     </select>
 
@@ -43,7 +48,7 @@ function handleSelectCountryCode(event) {
       <button
         class="btn w-24"
         :class="{
-          'btn loading': isPhoneNumberFormLoading,
+          'btn loading': isFormLoading,
         }"
         @click="handleClick"
       >
@@ -52,13 +57,14 @@ function handleSelectCountryCode(event) {
       <button
         class="btn w-24"
         :class="{
-          'btn loading': isPhoneNumberFormLoading,
+          'btn loading': isFormLoading,
         }"
         @click="handleClick"
       >
         Search
       </button>
     </div>
+    <button @click="handleClick">TEST BUTTON</button>
   </div>
 </template>
 

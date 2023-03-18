@@ -1,7 +1,8 @@
 import { ref } from "vue";
 
-export const countryCallingCode = ref("");
-export const phoneNumberInput = ref("");
+const countryCallingCode = ref("");
+const phoneNumberInput = ref("");
+const isShowPhoneNumberInput = ref(false);
 const MOCK_DATA = {
   _id: "6413b4a4b372f80c7fe2916c",
   phone: "6591348138",
@@ -21,13 +22,41 @@ const MOCK_DATA = {
   createdAt: 1679013028962,
 };
 
-export const mockData = ref(MOCK_DATA);
-const isPhoneNumberFormLoading = ref(false);
+const mockData = ref(MOCK_DATA);
+const isFormLoading = ref(false);
 
 export function usePhoneNumberForm() {
-  function toggleLoadingState() {
-    isPhoneNumberFormLoading.value = !isPhoneNumberFormLoading.value;
+  function toggleFormLoadingState() {
+    isFormLoading.value = !isFormLoading.value;
   }
 
-  return { toggleLoadingState, isPhoneNumberFormLoading };
+  function changeCountryCallingCode(newCountryCallingCode: string) {
+    countryCallingCode.value = newCountryCallingCode;
+  }
+
+  function submitPhoneNumberForm() {
+    console.log("Mock Form submitted");
+  }
+
+  function resetPhoneNumberForm() {
+    countryCallingCode.value = "";
+    phoneNumberInput.value = "";
+  }
+
+  function toggleShowPhoneNumberInput() {
+    isFormLoading.value = !isFormLoading.value;
+  }
+
+  return {
+    toggleFormLoadingState,
+    changeCountryCallingCode,
+    submitPhoneNumberForm,
+    resetPhoneNumberForm,
+    toggleShowPhoneNumberInput,
+    isFormLoading,
+    isShowPhoneNumberInput,
+    countryCallingCode,
+    phoneNumberInput,
+    mockData,
+  };
 }

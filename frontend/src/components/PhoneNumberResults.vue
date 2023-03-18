@@ -1,19 +1,15 @@
 <script setup lang="ts">
-import {
-  mockData, usePhoneNumberForm,
-} from "../composables/usePhoneNumberForm";
+import { usePhoneNumberForm } from "../composables/usePhoneNumberForm";
 
-
-const { isPhoneNumberFormLoading, toggleLoadingState } = usePhoneNumberForm();
-
-
+const { isFormLoading, toggleFormLoadingState, mockData } =
+  usePhoneNumberForm();
 </script>
 
 <template>
-  <div class="w-96">
+  <div class="w-96 h-52">
     <Transition>
       <div
-        v-if="!isPhoneNumberFormLoading"
+        v-if="!isFormLoading"
         class="phone-number-result bg-green-800 row-span-5 m-2"
       >
         <div class="flex">
