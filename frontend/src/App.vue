@@ -1,55 +1,8 @@
 <script setup lang="ts">
 import codes from 'country-calling-code';
-import { ref } from 'vue';
-
-export interface Format {
-  international: string;
-  local: string;
-}
-
-export interface Country {
-  code: string;
-  name: string;
-  prefix: string;
-}
-
-export interface GetPhoneNumberResponse {
-  _id: string;
-  phone: string;
-  valid: boolean;
-  format: Format;
-  country: Country;
-  location: string;
-  type: string;
-  carrier: string;
-  createdAt: number;
-}
+import { isLoading, mockData, phoneNumberInput } from './composables/usePhoneNumberForm';
 
 
-const MOCK_DATA = {
-  "_id": "6413b4a4b372f80c7fe2916c",
-  "phone": "6591348138",
-  "valid": true,
-  "format": {
-    "international": "+6591348138",
-    "local": "9134 8138"
-  },
-  "country": {
-    "code": "SG",
-    "name": "Singapore",
-    "prefix": "+65"
-  },
-  "location": "Singapore",
-  "type": "mobile",
-  "carrier": "SingTel",
-  "createdAt": 1679013028962
-}
-
-
-const searchInput = ref("")
-const isLoading = ref(false)
-const mockData = ref(MOCK_DATA)
-const countryCode = ref("65")
 
 function handleClick() {
   console.log(codes)
@@ -77,7 +30,7 @@ function handleSelectCountryCode(event) {
 
       <div class="phone-number-input w-full max-w-xs">
         <div>
-          <input v-model="searchInput" type="text" placeholder="eg. 5550199"
+          <input v-model="phoneNumberInput" type="text" placeholder="eg. 5550199"
             class="input input-bordered input-primary w-full mt-2" />
         </div>
       </div>
@@ -109,7 +62,7 @@ function handleSelectCountryCode(event) {
           </div>
           <p v-if="mockData.valid" class="text-left">Location: {{ mockData.country.name }}, {{ mockData.location }}</p>
           <p v-if="mockData.valid" class="text-left">Carrier: {{ mockData.carrier }}</p>
-          <p v-if="mockData.valid" class="text-left">international: {{ mockData.carrier }}</p>
+          <p v-if="mockData.valid" class="text-left">international: {{ mockData.format.international }}</p>
         </div>
       </Transition>
     </div>
