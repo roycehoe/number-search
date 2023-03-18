@@ -6,17 +6,12 @@ const {
   isFormLoading,
   phoneNumberInput,
   countryCallingCode,
+  submitPhoneNumberForm,
   resetPhoneNumberForm,
 } = usePhoneNumberForm();
 
 function handleClick() {
   console.log(countryCallingCode.value);
-}
-
-function submitForm() {
-  isFormLoading.value = true;
-  const input = countryCallingCode.value + phoneNumberInput.value;
-  console.log(input);
 }
 
 function handleSelectCountryCode(newCountryCallingCode: string) {
@@ -71,7 +66,7 @@ function handleSelectCountryCode(newCountryCallingCode: string) {
         :class="{
           'btn loading': isFormLoading,
         }"
-        @click="submitForm"
+        @click="submitPhoneNumberForm"
       >
         Search
       </button>

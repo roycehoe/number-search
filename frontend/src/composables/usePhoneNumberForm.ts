@@ -1,5 +1,26 @@
 import { ref } from "vue";
 
+interface Format {
+  international: string;
+  local: string;
+}
+
+interface Country {
+  code: string;
+  name: string;
+  prefix: string;
+}
+
+export interface PhoneValidationResponse {
+  phone: string;
+  valid: boolean;
+  format: Format;
+  country: Country;
+  location: string;
+  type: string;
+  carrier: string;
+}
+
 const countryCallingCode = ref("");
 const phoneNumberInput = ref("");
 const MOCK_DATA = {
@@ -21,17 +42,20 @@ const MOCK_DATA = {
   createdAt: 1679013028962,
 };
 
-const mockData = ref(MOCK_DATA);
+const phoneNumberData = ref({} as PhoneValidationResponse);
 const isFormLoading = ref(false);
 
 export function usePhoneNumberForm() {
-  function submitPhoneNumberForm() {
-    console.log("Mock Form submitted");
-  }
-
   function resetPhoneNumberForm() {
     countryCallingCode.value = "";
     phoneNumberInput.value = "";
+    phoneNumberData.value = {} as PhoneValidationResponse;
+  }
+
+  function submitPhoneNumberForm() {
+    const getPhoneNumberRequest = `${countryCallingCode.value}${phoneNumberInput.value}`;
+    console.log(getPhoneNumberRequest);
+    phoneNumberData.value = MOCK_DATA;
   }
 
   return {
@@ -40,6 +64,6 @@ export function usePhoneNumberForm() {
     isFormLoading,
     countryCallingCode,
     phoneNumberInput,
-    mockData,
+    phoneNumberData,
   };
 }
